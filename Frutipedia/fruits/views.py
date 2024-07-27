@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 
-from Frutipedia.fruits.forms import CreateCategory, CreateFruits
+from Frutipedia.fruits.forms import CreateCategory, CreateFruits, EditFruits, DeleteFruits
 from Frutipedia.fruits.models import Fruit
 
 
@@ -59,9 +59,39 @@ def detail_fruit(request, pk):
     return render(request, 'fruits/details-fruit.html', context)
 
 
-def delete_fruit(request, pk):
-    return render(request, 'fruits/delete-fruit.html')
-
-
 def edit_fruit(request, pk):
-    return render(request, 'fruits/edit-fruit.html')
+    fruit = Fruit.objects.get(pk=pk)
+    if request.method == 'GET':
+        form = EditFruits(instance=fruit)
+    else:
+        form = EditFruits(request.POST, instance=fruit)
+
+    if form.is_valid():
+        form.save()
+        return redirect('dashboard')
+
+    context = {
+        'fruit': fruit,
+        'form': form
+    }
+    return render(request, 'fruits/edit-fruit.html', context)
+
+
+def delete_fruit(request, pk):
+    fruit = Fruit.objects.get(pk=pk)
+    if request.method == 'GET':
+        form = DeleteFruits(instance=fruit)
+    else:
+        form = DeleteFruits(request.POST, instance=fruit)
+
+    if form.is_valid():
+        fruit.delete()
+        return redirect('dashboard')
+
+    context = {
+        'fruit': fruit,
+        'form': form
+    }
+
+    return render(request, 'fruits/delete-fruit.html', context)
+

@@ -41,3 +41,11 @@ class CreateBaseFruits(forms.ModelForm):
 
 class CreateFruits(CreateBaseFruits):
     pass
+
+
+class EditFruits(CreateBaseFruits):
+    pass
+
+
+class DeleteFruits(CreateBaseFruits):
+    pass
