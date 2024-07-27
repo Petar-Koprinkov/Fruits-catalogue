@@ -26,7 +26,7 @@ class CreateBaseFruits(forms.ModelForm):
         model = Fruit
         fields = '__all__'
         widgets = {
-            'name': forms.TextInput(attrs={'placeholder': 'Enter category name'}),
+            'name': forms.TextInput(attrs={'placeholder': 'Enter fruit name'}),
             'Image_url': forms.URLInput(attrs={'placeholder': 'Enter image url'}),
             'description': forms.TextInput(attrs={'placeholder': 'Enter description'}),
             'nutrition': forms.NumberInput(attrs={'placeholder': 'Enter nutrition'}),
@@ -34,7 +34,7 @@ class CreateBaseFruits(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        for field in self.fields.values():
+        for field in self.fields:
             self.fields[field].label = ''
 
 

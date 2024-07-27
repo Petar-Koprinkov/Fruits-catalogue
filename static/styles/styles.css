@@ -1,5 +1,4 @@
-@import 'dashboard.css';
-@import 'form.css';
-@import 'details.css';
-@import 'navigation.css';
-
+@import "navigation.css";
+@import "dashboard.css";
+@import "form.css";
+@import "details.css";
