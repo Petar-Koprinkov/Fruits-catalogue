@@ -22,7 +22,6 @@ class CreateCategory(CreateBaseCategory):
 
 
 class CreateBaseFruits(forms.ModelForm):
-
     class Meta:
         model = Fruit
         fields = '__all__'
@@ -35,7 +34,7 @@ class CreateBaseFruits(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        for field in self.fields:
+        for field in self.fields.values():
             self.fields[field].label = ''
 
 
@@ -48,4 +47,7 @@ class EditFruits(CreateBaseFruits):
 
 
 class DeleteFruits(CreateBaseFruits):
-    pass
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].disabled = True
