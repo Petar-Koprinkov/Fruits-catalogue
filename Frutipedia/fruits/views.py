@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
+from Frutipedia.fruits.forms import CreateCategory, CreateFruits
 from Frutipedia.fruits.models import Fruit
 
 
@@ -16,22 +17,51 @@ def dashboard(request):
 
 
 def create_categories(request):
-    return render(request, 'categories/create-category.html')
+    if request.method == 'GET':
+        form = CreateCategory()
+    else:
+        form = CreateCategory(request.POST)
+
+    if form.is_valid():
+        form.save()
+        return redirect('dashboard')
+
+    context = {
+        'form': form
+    }
+
+    return render(request, 'categories/create-category.html', context)
 
 
 def create_fruit(request):
-    return render(request, 'fruits/create-fruit.html')
+    if request.method == 'GET':
+        form = CreateFruits()
+    else:
+        form = CreateFruits(request.POST)
+
+    if form.is_valid():
+        form.save()
+        return redirect('dashboard')
+
+    context = {
+        'form': form
+    }
+
+    return render(request, 'fruits/create-fruit.html', context)
+
+
+def detail_fruit(request, pk):
+    fruit = Fruit.objects.get(pk=pk)
+
+    context = {
+        'fruit': fruit
+    }
+    return render(request, 'fruits/details-fruit.html', context)
 
 
 def delete_fruit(request, pk):
     return render(request, 'fruits/delete-fruit.html')
 
 
-def detail_fruit(request, pk):
-    return render(request, 'fruits/details-fruit.html')
-
-
 def edit_fruit(request, pk):
     return render(request, 'fruits/edit-fruit.html')
-
-
